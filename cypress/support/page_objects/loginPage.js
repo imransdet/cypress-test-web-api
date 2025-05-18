@@ -20,11 +20,15 @@ export class LoginPage{
     }
 
     enterPassword(){
-        cy.get('#password').type(password);
+        cy.get('#password').type('Test@0987');
     }
 
     enterConfirmPassword(){
-        cy.get('#confirmPassword').type(password);
+        cy.get('#confirmPassword').type('Test@0987');
+    }
+
+    clickOnSignUp(){
+        cy.get('button[type=\'submit\']').click();
     }
 
 }
