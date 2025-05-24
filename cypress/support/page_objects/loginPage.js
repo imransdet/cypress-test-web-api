@@ -68,6 +68,86 @@ export class LoginPage{
         cy.get('.MuiGrid-root.MuiGrid-item.css-13i4rnv-MuiGrid-root')
             .should('be.visible');
     }
+
+    enterUsernameToLogin() {
+        cy.fixture('createdUser.json').then((userData) => {
+            cy.get('#username-label').should('contain', 'Username');
+            cy.get('#username').type(userData.username);
+        });
+    }
+
+    enterPasswordToLogin() {
+        cy.fixture('createdUser.json').then((userData) => {
+            cy.get('#password-label').should('contain', 'Password');
+            cy.get('#password').type(userData.password);
+        });
+    }
+
+    clickOnSignIn() {
+        cy.get("button[type='submit']")
+            .should('contain', 'Sign In')
+            .click();
+
+        cy.wait(1000);
+        cy.get('body').then(($body) => {
+            if ($body.find('button[data-test="user-onboarding-next"]').length > 0) {
+                cy.get('button[data-test="user-onboarding-next"]', { timeout: 5000 })
+                    .should('be.visible')
+                    .click();
+                cy.wait(1000);
+            } else {
+                cy.log('Next button not found, continuing...');
+            }
+        });
+
+    }
+
+    enterBankName() {
+        cy.contains('Create Bank Account', { timeout: 3000 });
+
+        cy.get('#bankaccount-bankName-input')
+            .should('have.attr', 'placeholder', 'Bank Name');
+
+        const bankName = faker.company.name();
+        cy.get('#bankaccount-bankName-input').type(bankName);
+        cy.get('#bankaccount-bankName-input').should('have.value', bankName);
+
+    }
+
+    enterRoutingNumber() {
+        cy.get('#bankaccount-routingNumber-input')
+            .should('have.attr', 'placeholder', 'Routing Number');
+
+        const routingNumber = faker.finance.routingNumber();
+        cy.get('#bankaccount-routingNumber-input').type(routingNumber);
+        cy.get('#bankaccount-routingNumber-input').should('have.value', routingNumber);
+    }
+
+    enterAccountNumber() {
+        cy.get('#bankaccount-accountNumber-input')
+            .should('have.attr', 'placeholder', 'Account Number');
+
+        const accountNumber = faker.finance.accountNumber(9);
+        cy.get('#bankaccount-accountNumber-input').type(accountNumber);
+        cy.get('#bankaccount-accountNumber-input').should('have.value', accountNumber);
+    }
+
+    clickOnSaveBankAccount() {
+        cy.get("button[type='submit']")
+            .should('contain', 'Save')
+            .click();
+
+        cy.contains('Finished', { timeout: 3000 })
+            .should('be.visible');
+
+        cy.contains('Done').click();
+    }
+
+    validateOnHomePage() {
+        cy.contains('Logout', { timeout: 3000 })
+            .should('be.visible');
+    }
+
 }
 
 export const onLoginPage = new LoginPage();
