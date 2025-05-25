@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install test project dependencies
-        run: npm ci # Assuming your main project uses npm, or adjust to yarn if needed
+        run: npm ci
 
       - name: Install Real World App dependencies
         working-directory: ./cypress-realworld-app
@@ -27,26 +27,19 @@ jobs:
           # Use --ignore-scripts to prevent the 'postinstall' script (which includes husky) from failing.
           yarn install --frozen-lockfile --ignore-scripts # Keep --ignore-scripts
 
-      - name: Apply Patches for Real World App # NEW STEP: Explicitly run patch-package
+      - name: Apply Patches for Real World App
         working-directory: ./cypress-realworld-app
-        run: npx patch-package || true # Use npx to ensure patch-package is found.
-        # `|| true` makes this step not fail the workflow if no patches are applied or if it's a non-critical error.
-
-      - name: 'Debug: Print package.json content'
-        working-directory: ./cypress-realworld-app
-        run: cat package.json
-
-      - name: 'Debug: List Yarn Scripts'
-        working-directory: ./cypress-realworld-app
-        run: yarn run
+        run: npx patch-package || true
 
       - name: Start Real World App (on localhost:3000)
         working-directory: ./cypress-realworld-app
         run: |
           set -eux
-          (yarn start:api:watch &) # Wrapped in subshell to handle '&' for YAML parser
-          (yarn start:react &)    # Wrapped in subshell to handle '&' for YAML parser
-          npx wait-on http://localhost:3000
+          # Start API and React in the background using nohup to ensure they are fully detached.
+          # Redirect output to log files to prevent stdout/stderr from blocking.
+          nohup yarn start:api > api.log 2>&1 & # Starts the API server without nodemon
+          nohup yarn start:react > react.log 2>&1 & # Starts the React frontend (Vite)
+          npx wait-on http://localhost:3000 # Wait for the React app to be ready
 
       - name: Run Cypress Tests
         run: npx cypress run
