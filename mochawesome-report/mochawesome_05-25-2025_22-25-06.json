@@ -1,0 +1,106 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-05-25T16:25:02.058Z",
+    "end": "2025-05-25T16:25:06.339Z",
+    "duration": 4281,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "eb65878a-d25f-4458-8dd8-1c7f487db865",
+      "title": "",
+      "fullFile": "cypress/e2e/1-signUp.cy.js",
+      "file": "cypress/e2e/1-signUp.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "4e6a6d14-10ca-43b0-a0ea-9131770f20e0",
+          "title": "Validate the signup process",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should fill out the signup form and submit",
+              "fullTitle": "Validate the signup process should fill out the signup form and submit",
+              "timedOut": null,
+              "duration": 4257,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.goToLoginPage();\n_loginPage.onLoginPage.clickOnDontHaveAccount();\n_loginPage.onLoginPage.enterFirstName();\n_loginPage.onLoginPage.enterLastName();\n_loginPage.onLoginPage.enterUsername();\n_loginPage.onLoginPage.enterPassword();\n_loginPage.onLoginPage.enterConfirmPassword();\n_loginPage.onLoginPage.clickOnSignUp();",
+              "err": {},
+              "uuid": "750b5054-db72-4a5a-bfb5-52a68cdb535f",
+              "parentUUID": "4e6a6d14-10ca-43b0-a0ea-9131770f20e0",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "750b5054-db72-4a5a-bfb5-52a68cdb535f"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 4257,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "mochawesome-report",
+        "overwrite": false,
+        "html": true,
+        "json": true,
+        "timestamp": "mm-dd-yyyy_HH-MM-ss"
+      },
+      "version": "6.2.0"
+    }
+  }
+}
