@@ -17,16 +17,21 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install test project dependencies
-        run: npm ci
+        run: npm ci # Assuming your main project uses npm, or adjust to yarn if needed
 
       - name: Install Real World App dependencies
         working-directory: ./cypress-realworld-app
-        run: yarn install
+        run: yarn install # Changed 'npm ci' to 'yarn install' as package.json uses yarn
 
       - name: Start Real World App (on localhost:3000)
         working-directory: ./cypress-realworld-app
         run: |
-          yarn dev &
+          # The 'yarn dev' command was failing, so we're directly running its constituent parts.
+          # The 'dev' script in package.json runs:
+          # "concurrently yarn:start:react yarn:start:api:watch"
+          # We will run these two commands in the background.
+          yarn start:api:watch & # Starts the API server
+          yarn start:react &    # Starts the React frontend (likely on localhost:3000)
           npx wait-on http://localhost:3000
 
       - name: Run Cypress Tests
