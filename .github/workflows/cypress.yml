@@ -31,9 +31,9 @@ jobs:
         working-directory: ./cypress-realworld-app
         run: npx patch-package || true # Use npx to ensure patch-package is found.
 
-      - name: 'Debug: List Cypress Support Directory' # NEW DEBUG STEP
-        working-directory: ./cypress-realworld-app/cypress/support
-        run: ls -la
+      - name: 'Debug: List Cypress Directory Contents' # Modified Debug Step
+        working-directory: ./cypress-realworld-app/cypress
+        run: ls -la # List contents of the 'cypress' directory
 
       - name: Start Real World App and Run Cypress Tests # Combined step
         working-directory: ./cypress-realworld-app
