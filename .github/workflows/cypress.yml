@@ -31,18 +31,16 @@ jobs:
         working-directory: ./cypress-realworld-app
         run: npx patch-package || true # Use npx to ensure patch-package is found.
 
-      - name: Start Real World App (on localhost:3000)
+      - name: Start Real World App and Run Cypress Tests # Combined step
         working-directory: ./cypress-realworld-app
         run: |
-          set -eux
-          # Start API and React in the background using nohup to ensure they are fully detached.
-          # Redirect output to log files to prevent stdout/stderr from blocking.
-          nohup yarn start:api > api.log 2>&1 &    # Starts the API server without nodemon
-          nohup yarn start:react > react.log 2>&1 & # Starts the React frontend (Vite)
-          npx wait-on http://localhost:3000         # Wait for the React app to be ready (moved to last)
-
-      - name: Run Cypress Tests
-        run: npx cypress run
+          # Use start-server-and-test to reliably start both servers and wait for them
+          # before executing Cypress tests.
+          # It will:
+          # 1. Start 'yarn start:api' and wait for http://localhost:3001.
+          # 2. Once API is ready, start 'yarn start:react' and wait for http://localhost:3000.
+          # 3. Once React is ready, execute 'npx cypress run'.
+          npx start-server-and-test "yarn start:api" http://localhost:3001 "yarn start:react" http://localhost:3000 "npx cypress run"
 
       - name: Upload Cypress Artifacts
         if: failure()
