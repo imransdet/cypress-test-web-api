@@ -26,7 +26,7 @@ jobs:
       - name: Start Real World App (on localhost:3000)
         working-directory: ./cypress-realworld-app
         run: |
-          yarn start & # Changed 'npm start' to 'yarn start'
+          yarn dev &
           npx wait-on http://localhost:3000
 
       - name: Run Cypress Tests
