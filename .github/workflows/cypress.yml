@@ -34,7 +34,7 @@ jobs:
 
       - name: Upload Cypress videos & screenshots (on failure)
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@0cc742b21a1c9f96c768ad0f2e6fa7691e3c57d3  # SHA for v2
         with:
           name: cypress-artifacts
           path: |
