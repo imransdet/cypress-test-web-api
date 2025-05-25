@@ -19,6 +19,9 @@ jobs:
       - name: Install test project dependencies
         run: npm ci # Assuming your main project uses npm, or adjust to yarn if needed
 
+      - name: Install Cypress Reporter Dependencies # NEW STEP: Install mochawesome at root
+        run: npm install mochawesome mochawesome-report-generator # Install reporter packages
+
       - name: Install Real World App dependencies
         working-directory: ./cypress-realworld-app # This step correctly targets the sub-app
         run: |
@@ -43,10 +46,11 @@ jobs:
             "npx cypress run" # This command will run from the root, finding Cypress files.
 
       - name: Upload Cypress Artifacts
-        if: failure()
+        if: always() # Changed condition to always upload reports
         uses: actions/upload-artifact@v4
         with:
           name: cypress-artifacts
           path: |
             cypress/videos
-            cypress/screenshots # These paths are relative to the root, which is now correct.
+            cypress/screenshots
+            mochawesome-report # NEW: Upload the generated HTML report directory
