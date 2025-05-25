@@ -17,13 +17,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install test project dependencies
-        run: npm ci # Assuming your main project uses npm, or adjust to yarn if needed
+        run: npm ci
 
-      - name: Install Cypress Reporter Dependencies # NEW STEP: Install mochawesome at root
-        run: npm install mochawesome mochawesome-report-generator # Install reporter packages
+      - name: Install Cypress Reporter Dependencies
+        run: npm install mochawesome mochawesome-report-generator
 
       - name: Install Real World App dependencies
-        working-directory: ./cypress-realworld-app # This step correctly targets the sub-app
+        working-directory: ./cypress-realworld-app
         run: |
           set -e # Exit immediately if a command exits with a non-zero status.
           yarn cache clean # Clear yarn cache to ensure fresh install
@@ -31,26 +31,20 @@ jobs:
           yarn install --frozen-lockfile --ignore-scripts # Keep --ignore-scripts
 
       - name: Apply Patches for Real World App
-        working-directory: ./cypress-realworld-app # This step correctly targets the sub-app
-        run: npx patch-package || true # Use npx to ensure patch-package is found.
+        working-directory: ./cypress-realworld-app
+        run: npx patch-package || true
 
-      - name: Start Servers and Run Cypress Tests # Renamed and modified step
-        # This step runs from the root of the repository, where Cypress is configured.
+      - name: Start Servers and Run Cypress Tests
         run: |
-          # Use start-server-and-test to reliably start both servers and wait for them
-          # before executing Cypress tests.
-          # We explicitly 'cd' into the sub-app directory for the server commands.
           npx start-server-and-test \
             "cd ./cypress-realworld-app && yarn start:api" http://localhost:3001 \
             "cd ./cypress-realworld-app && yarn start:react" http://localhost:3000 \
             "npx cypress run" # This command will run from the root, finding Cypress files.
 
       - name: Upload Cypress Artifacts
-        if: always() # Changed condition to always upload reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-artifacts
           path: |
-            cypress/videos
-            cypress/screenshots
-            mochawesome-report # NEW: Upload the generated HTML report directory
+            mochawesome-report 
