@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install test project dependencies
-        run: npm ci
+        run: npm ci # Assuming your main project uses npm, or adjust to yarn if needed
 
       - name: Install Real World App dependencies
         working-directory: ./cypress-realworld-app
@@ -29,7 +29,7 @@ jobs:
 
       - name: Apply Patches for Real World App
         working-directory: ./cypress-realworld-app
-        run: npx patch-package || true
+        run: npx patch-package || true # Use npx to ensure patch-package is found.
 
       - name: Start Real World App (on localhost:3000)
         working-directory: ./cypress-realworld-app
@@ -37,9 +37,9 @@ jobs:
           set -eux
           # Start API and React in the background using nohup to ensure they are fully detached.
           # Redirect output to log files to prevent stdout/stderr from blocking.
-          nohup yarn start:api > api.log 2>&1 & # Starts the API server without nodemon
+          nohup yarn start:api > api.log 2>&1 &    # Starts the API server without nodemon
           nohup yarn start:react > react.log 2>&1 & # Starts the React frontend (Vite)
-          npx wait-on http://localhost:3000 # Wait for the React app to be ready
+          npx wait-on http://localhost:3000         # Wait for the React app to be ready (moved to last)
 
       - name: Run Cypress Tests
         run: npx cypress run
