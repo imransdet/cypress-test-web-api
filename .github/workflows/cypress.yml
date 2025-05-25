@@ -32,9 +32,9 @@ jobs:
       - name: Run Cypress Tests
         run: npx cypress run
 
-      - name: Upload Cypress videos & screenshots (on failure)
+      - name: Upload Cypress Artifacts
         if: failure()
-        uses: actions/upload-artifact@0cc742b21a1c9f96c768ad0f2e6fa7691e3c57d3  # SHA for v2
+        uses: actions/upload-artifact@3f7dd9f9de4e7fada2836c0b4d52b99b2c691ce5  # This is a stable SHA from v3
         with:
           name: cypress-artifacts
           path: |
