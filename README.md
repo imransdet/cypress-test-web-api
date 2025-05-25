@@ -13,10 +13,10 @@ The test suite validates both UI workflows and API endpoints using Cypress with 
 - **Test Framework:** [Cypress](https://www.cypress.io/)
 - **Language:** JavaScript
 - **Architecture:** Page Object Model (POM)
-- **Reports:** HTML reports (optional)
+- **Reports:** HTML reports
 - **Data Handling:** Fixtures with Faker for dynamic test data
-- **CI/CD:** Bitbucket Pipelines (configurable for GitHub Actions, GitLab)
-- **API Testing:** Cypress `cy.request()` with schema validation
+- **CI/CD:** GitHub Actions (configurable for BitBucket, and GitLab)
+- **API Testing:** Cypress `cy.request()` with schema validation: ToDo
 
 ---
 
@@ -50,8 +50,8 @@ npm install
 ```bash
 git clone https://github.com/cypress-io/cypress-realworld-app.git
 cd cypress-realworld-app
-npm install
-npm start
+yarn install
+yarn start
 ```
 
 Ensure the app is running at `http://localhost:3000`.
@@ -93,47 +93,59 @@ cy.request('/api/transactions').then((response) => {
 
 ---
 
-## ⚙️ CI/CD Pipeline (GitHub Action Example)
+## ⚙️ CI/CD Pipeline (GitHub Actions Example)
 
 ```yaml
 name: Run Cypress Tests
 
 on:
   push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main, develop]
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read
 
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
+      - name: Install test project dependencies
         run: npm ci
 
-      - name: Start Application (Optional)
-        run: npm run start & npx wait-on http://localhost:3000
+      - name: Install Cypress Reporter Dependencies
+        run: npm install mochawesome mochawesome-report-generator
 
-      - name: Run Cypress Tests
-        run: npx cypress run
+      - name: Install Real World App dependencies
+        working-directory: ./cypress-realworld-app
+        run: |
+          set -e # Exit immediately if a command exits with a non-zero status.
+          yarn cache clean # Clear yarn cache to ensure fresh install
+          # Use --ignore-scripts to prevent the 'postinstall' script (which includes husky) from failing.
+          yarn install --frozen-lockfile --ignore-scripts # Keep --ignore-scripts
 
-      - name: Upload Cypress videos & screenshots on failure
-        if: failure()
-        uses: actions/upload-artifact@v3
+      - name: Apply Patches for Real World App
+        working-directory: ./cypress-realworld-app
+        run: npx patch-package || true
+
+      - name: Start Servers and Run Cypress Tests
+        run: |
+          npx start-server-and-test \
+            "cd ./cypress-realworld-app && yarn start:api" http://localhost:3001 \
+            "cd ./cypress-realworld-app && yarn start:react" http://localhost:3000 \
+            "npx cypress run" # This command will run from the root, finding Cypress files.
+
+      - name: Upload Cypress Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-artifacts
           path: |
-            cypress/videos
-            cypress/screenshots
+            mochawesome-report 
 
 ```
 
