@@ -137,16 +137,3 @@ jobs:
 
 ```
 
----
-
-## 🤝 Contributing
-
-Feel free to fork the repository and submit a pull request. Bug reports, feature requests, and suggestions are welcome!
-
----
-
-## 📬 Contact
-
-**Maintainer:** _AL IMRAN_  
-**LinkedIn:** [linkedin.com/in/your-profile](https://linkedin.com/in/your-profile)  
-**Email:** your.email@example.com

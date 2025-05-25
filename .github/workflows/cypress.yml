@@ -2,7 +2,7 @@ name: Run Cypress Tests
 
 on:
   push:
-    branches: [main]  # Only trigger when test project changes are pushed
+    branches: [main]
 
 jobs:
   cypress-run:
