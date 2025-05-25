@@ -2,33 +2,35 @@ name: Run Cypress Tests
 
 on:
   push:
-    branches: [main]
+    branches: [main]  # Only trigger when test project changes are pushed
 
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
+      - name: Install test project dependencies
         run: npm ci
 
-      - name: Start Application (Optional)
-        run: npm run start & npx wait-on http://localhost:3000
+      - name: Install Real World App dependencies
+        working-directory: ./cypress-realworld-app
+        run: npm ci
+
+      - name: Start Real World App (on localhost:3000)
+        working-directory: ./cypress-realworld-app
+        run: |
+          npm run dev & 
+          npx wait-on http://localhost:3000
 
       - name: Run Cypress Tests
         run: npx cypress run
 
-      - name: Upload Cypress videos & screenshots on failure
+      - name: Upload Cypress videos & screenshots (on failure)
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: cypress-artifacts
           path: |
