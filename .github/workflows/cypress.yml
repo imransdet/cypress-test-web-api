@@ -37,13 +37,9 @@ jobs:
       - name: Start Real World App (on localhost:3000)
         working-directory: ./cypress-realworld-app
         run: |
-          set -eux # -e: exit on error, -u: unset variables as error, -x: print commands and arguments as they are executed.
-          # The 'yarn dev' command was failing, so we're directly running its constituent parts.
-          # The 'dev' script in package.json runs:
-          # "concurrently yarn:start:react yarn:start:api:watch"
-          # We will run these two commands in the background.
-          yarn start:api:watch & # Starts the API server
-          yarn start:react &    # Starts the React frontend (likely on localhost:3000)
+          set -eux
+          (yarn start:api:watch &) # Wrapped in subshell to handle '&' for YAML parser
+          (yarn start:react &)    # Wrapped in subshell to handle '&' for YAML parser
           npx wait-on http://localhost:3000
 
       - name: Run Cypress Tests
