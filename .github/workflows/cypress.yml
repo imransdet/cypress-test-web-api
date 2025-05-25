@@ -34,7 +34,7 @@ jobs:
 
       - name: Upload Cypress Artifacts
         if: failure()
-        uses: actions/upload-artifact@3f7dd9f9de4e7fada2836c0b4d52b99b2c691ce5  # This is a stable SHA from v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-artifacts
           path: |
