@@ -20,7 +20,7 @@ jobs:
         run: npm ci # Assuming your main project uses npm, or adjust to yarn if needed
 
       - name: Install Real World App dependencies
-        working-directory: ./cypress-realworld-app
+        working-directory: ./cypress-realworld-app # This step correctly targets the sub-app
         run: |
           set -e # Exit immediately if a command exits with a non-zero status.
           yarn cache clean # Clear yarn cache to ensure fresh install
@@ -28,23 +28,19 @@ jobs:
           yarn install --frozen-lockfile --ignore-scripts # Keep --ignore-scripts
 
       - name: Apply Patches for Real World App
-        working-directory: ./cypress-realworld-app
+        working-directory: ./cypress-realworld-app # This step correctly targets the sub-app
         run: npx patch-package || true # Use npx to ensure patch-package is found.
 
-      - name: 'Debug: List Cypress Directory Contents' # Modified Debug Step
-        working-directory: ./cypress-realworld-app/cypress
-        run: ls -la # List contents of the 'cypress' directory
-
-      - name: Start Real World App and Run Cypress Tests # Combined step
-        working-directory: ./cypress-realworld-app
+      - name: Start Servers and Run Cypress Tests # Renamed and modified step
+        # This step runs from the root of the repository, where Cypress is configured.
         run: |
           # Use start-server-and-test to reliably start both servers and wait for them
           # before executing Cypress tests.
-          # It will:
-          # 1. Start 'yarn start:api' and wait for http://localhost:3001.
-          # 2. Once API is ready, start 'yarn start:react' and wait for http://localhost:3000.
-          # 3. Once React is ready, execute 'npx cypress run'.
-          npx start-server-and-test "yarn start:api" http://localhost:3001 "yarn start:react" http://localhost:3000 "npx cypress run"
+          # We explicitly 'cd' into the sub-app directory for the server commands.
+          npx start-server-and-test \
+            "cd ./cypress-realworld-app && yarn start:api" http://localhost:3001 \
+            "cd ./cypress-realworld-app && yarn start:react" http://localhost:3000 \
+            "npx cypress run" # This command will run from the root, finding Cypress files.
 
       - name: Upload Cypress Artifacts
         if: failure()
@@ -53,4 +49,4 @@ jobs:
           name: cypress-artifacts
           path: |
             cypress/videos
-            cypress/screenshots
+            cypress/screenshots # These paths are relative to the root, which is now correct.
