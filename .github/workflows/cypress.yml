@@ -26,11 +26,11 @@ jobs:
           yarn cache clean # Clear yarn cache to ensure fresh install
           yarn install --frozen-lockfile # Use frozen-lockfile for deterministic installs
 
-      - name: { Debug: "Print package.json content" }
+      - name: 'Debug: Print package.json content' # Enclosed in single quotes
         working-directory: ./cypress-realworld-app
         run: cat package.json
 
-      - name: { Debug: "List Yarn Scripts" }
+      - name: 'Debug: List Yarn Scripts' # Enclosed in single quotes
         working-directory: ./cypress-realworld-app
         run: yarn run
 
