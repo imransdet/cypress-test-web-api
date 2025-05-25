@@ -16,27 +16,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: 'Debug: List root directory contents' # NEW DEBUG STEP
-        run: ls -la
-
-      - name: 'Debug: List cypress-realworld-app directory contents' # NEW DEBUG STEP
-        run: ls -la ./cypress-realworld-app
-
       - name: Install test project dependencies
-        run: npm ci # Assuming your main project uses npm, or adjust to yarn if needed
+        run: npm ci
 
       - name: Install Real World App dependencies
         working-directory: ./cypress-realworld-app
         run: |
           set -e # Exit immediately if a command exits with a non-zero status.
           yarn cache clean # Clear yarn cache to ensure fresh install
-          yarn install --frozen-lockfile # Use frozen-lockfile for deterministic installs
+          # Use --ignore-scripts to prevent postinstall from failing due to .git not found
+          yarn install --frozen-lockfile --ignore-scripts # Added --ignore-scripts
 
-      - name: 'Debug: Print package.json content' # Enclosed in single quotes
+      - name: 'Debug: Print package.json content'
         working-directory: ./cypress-realworld-app
         run: cat package.json
 
-      - name: 'Debug: List Yarn Scripts' # Enclosed in single quotes
+      - name: 'Debug: List Yarn Scripts'
         working-directory: ./cypress-realworld-app
         run: yarn run
 
