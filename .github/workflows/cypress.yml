@@ -16,6 +16,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: 'Debug: List root directory contents' # NEW DEBUG STEP
+        run: ls -la
+
+      - name: 'Debug: List cypress-realworld-app directory contents' # NEW DEBUG STEP
+        run: ls -la ./cypress-realworld-app
+
       - name: Install test project dependencies
         run: npm ci # Assuming your main project uses npm, or adjust to yarn if needed
 
