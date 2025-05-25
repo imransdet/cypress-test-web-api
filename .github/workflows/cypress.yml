@@ -21,12 +21,12 @@ jobs:
 
       - name: Install Real World App dependencies
         working-directory: ./cypress-realworld-app
-        run: npm ci
+        run: yarn install
 
       - name: Start Real World App (on localhost:3000)
         working-directory: ./cypress-realworld-app
         run: |
-          npm run start & 
+          yarn start & # Changed 'npm start' to 'yarn start'
           npx wait-on http://localhost:3000
 
       - name: Run Cypress Tests
