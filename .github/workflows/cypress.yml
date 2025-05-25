@@ -21,11 +21,23 @@ jobs:
 
       - name: Install Real World App dependencies
         working-directory: ./cypress-realworld-app
-        run: yarn install # Changed 'npm ci' to 'yarn install' as package.json uses yarn
+        run: |
+          set -e # Exit immediately if a command exits with a non-zero status.
+          yarn cache clean # Clear yarn cache to ensure fresh install
+          yarn install --frozen-lockfile # Use frozen-lockfile for deterministic installs
+
+      - name: { Debug: "Print package.json content" }
+        working-directory: ./cypress-realworld-app
+        run: cat package.json
+
+      - name: { Debug: "List Yarn Scripts" }
+        working-directory: ./cypress-realworld-app
+        run: yarn run
 
       - name: Start Real World App (on localhost:3000)
         working-directory: ./cypress-realworld-app
         run: |
+          set -eux # -e: exit on error, -u: unset variables as error, -x: print commands and arguments as they are executed.
           # The 'yarn dev' command was failing, so we're directly running its constituent parts.
           # The 'dev' script in package.json runs:
           # "concurrently yarn:start:react yarn:start:api:watch"
