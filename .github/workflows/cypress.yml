@@ -26,7 +26,7 @@ jobs:
         run: npm ci
 
       - name: Run Cypress API tests
-        run: npx cypress run --spec "cypress/e2e/api/**/*.cy.js"
+        run: npx cypress run --spec "cypress/e2e/api/**/*.cy.js" --config baseUrl=""
 
 
   ui-tests:
