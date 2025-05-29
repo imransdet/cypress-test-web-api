@@ -30,6 +30,7 @@ jobs:
 
 
   ui-tests:
+    name: Run UI Tests
     runs-on: ubuntu-latest
 
     steps:

@@ -3,6 +3,9 @@ describe('Trello API Tests', () => {
     const trelloKey = Cypress.env('secretKey');
     const trelloToken = Cypress.env('apiToken');
 
+    console.log('Key:', Cypress.env('secretKey'));
+    console.log('Token:', Cypress.env('apiToken'));
+
     it('should fetch boards', () => {
         cy.request({
             method: 'GET',

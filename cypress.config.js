@@ -1,4 +1,5 @@
 const { defineConfig } = require("cypress");
+require('dotenv').config();
 
 module.exports = defineConfig({
   e2e: {
@@ -12,6 +13,13 @@ module.exports = defineConfig({
       html: true,
       json: true,
       timestamp: 'mm-dd-yyyy_HH-MM-ss'
+    },
+    env: {
+      apiToken: process.env.API_TOKEN,
+      secretKey: process.env.SECRET_KEY
+    },
+    setupNodeEvents(on, config) {
+      return config;
     },
   },
 });
