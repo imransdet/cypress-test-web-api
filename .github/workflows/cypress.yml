@@ -9,7 +9,7 @@ permissions:
   actions: read
 
 jobs:
-  cypress-run:
+  cypress-ui-test-run:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,12 +34,12 @@ jobs:
         working-directory: ./cypress-realworld-app
         run: npx patch-package || true
 
-      - name: Start Servers and Run Cypress Tests
+      - name: Start Servers and Run Cypress UI Tests
         run: |
           npx start-server-and-test \
             "cd ./cypress-realworld-app && yarn start:api" http://localhost:3001 \
             "cd ./cypress-realworld-app && yarn start:react" http://localhost:3000 \
-            "npx cypress run" # This command will run from the root, finding Cypress files.
+            npx cypress run --spec "cypress/e2e/ui/**/*.cy.js"
 
       - name: Upload Cypress Artifacts
         if: always()
