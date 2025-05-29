@@ -39,9 +39,7 @@ jobs:
           npx start-server-and-test \
             "cd ./cypress-realworld-app && yarn start:api" http://localhost:3001 \
             "cd ./cypress-realworld-app && yarn start:react" http://localhost:3000 \
-
-      - name: Run Cypress UI tests
-        run: npx cypress run --spec "cypress/e2e/ui/**/*.cy.js"
+            "npx cypress run --spec 'cypress/e2e/ui/**/*.cy.{js,ts}'"
 
       - name: Upload Cypress Artifacts
         if: always()
