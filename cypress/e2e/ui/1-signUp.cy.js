@@ -1,4 +1,4 @@
-import {onLoginPage} from "../support/page_objects/loginPage";
+import {onLoginPage} from "../../support/page_objects/loginPage";
 
 describe('Validate the signup process', () => {
 

@@ -76,15 +76,15 @@
       "modifiedAt": "2024-03-07T00:07:36.510Z"
     },
     {
-      "id": "24BSQKHtH",
-      "uuid": "68e19853-a9d0-4c68-a401-9a42c1fc139d",
-      "firstName": "Brook",
-      "lastName": "Feest",
-      "username": "Edison71",
-      "password": "$2a$10$umds.r.3PUyvkcz/Idbj4.jXZ83/vOwB/eDwqxKXJ5.knAXz7hffe",
+      "id": "AKWZB0X-7",
+      "uuid": "0b35f25a-4b4c-4de4-8e5d-70f6f31316e6",
+      "firstName": "Bert",
+      "lastName": "Kuhn",
+      "username": "Keaton_Rau",
+      "password": "$2a$10$sW8e6JW1yNEbGWqSzPp7P.Zbz/pqv3N8z9p8/fdkz5XK86M3oXXz2",
       "balance": 0,
-      "createdAt": "2025-05-25T16:25:06.287Z",
-      "modifiedAt": "2025-05-25T16:25:06.287Z"
+      "createdAt": "2025-05-29T02:55:14.640Z",
+      "modifiedAt": "2025-05-29T02:55:14.640Z"
     }
   ],
   "contacts": [
@@ -266,15 +266,15 @@
       "modifiedAt": "2024-03-07T08:44:31.174Z"
     },
     {
-      "id": "v5hp0DOg_",
-      "uuid": "23b68ea4-5a33-45d9-8aed-f065de9d0e2b",
-      "userId": "24BSQKHtH",
-      "bankName": "Harvey, Langosh and Barton",
-      "accountNumber": "550592156",
-      "routingNumber": "943303071",
+      "id": "iBvbeT6Z7",
+      "uuid": "30bd6922-91d0-46b3-891e-d59e513b4e46",
+      "userId": "AKWZB0X-7",
+      "bankName": "Becker, Friesen and Hilpert",
+      "accountNumber": "468809781",
+      "routingNumber": "127596361",
       "isDeleted": false,
-      "createdAt": "2025-05-25T16:25:12.605Z",
-      "modifiedAt": "2025-05-25T16:25:12.605Z"
+      "createdAt": "2025-05-29T02:55:24.396Z",
+      "modifiedAt": "2025-05-29T02:55:24.396Z"
     }
   ],
   "transactions": [

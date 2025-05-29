@@ -1,4 +1,5 @@
-import {onLoginPage} from "../support/page_objects/loginPage";
+import {onLoginPage} from "../../support/page_objects/loginPage";
+
 
 describe('Validate the onboarding process', () => {
     it('should be logged in and create bank account', () => {
